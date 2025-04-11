@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>冻柜损坏类型 - 堆场验箱系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/mobile-app-style.css">
+    <style>
+        body {
+            max-width: 430px;
+            min-height: 1020px;
+            height: 1020px;
+            margin: 0 auto;
+            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-y: auto;
+        }
+        
+        .app-bottom-nav {
+            max-width: 430px;
+            margin: 0 auto;
+        }
+        
+        .damage-type-tag {
+            transition: all 0.2s;
+        }
+        .damage-type-tag:active {
+            transform: scale(0.98);
+            background-color: #e5e7eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    <!-- 顶部状态栏 -->
+    <div class="bg-white px-4 py-2 flex justify-between items-center">
+        <div class="text-sm text-gray-600">9:41</div>
+        <div class="flex space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- 头部 -->
+    <div class="bg-white p-4 shadow-sm flex items-center">
+        <a href="entry_inspection.html" class="mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+        </a>
+        <h1 class="text-xl font-bold text-gray-800">冻柜损坏类型</h1>
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="p-4 bg-white">
+        <div class="flex items-center border border-gray-200 rounded-lg p-2">
+            <i class="fas fa-search text-gray-400 mr-2"></i>
+            <input type="text" placeholder="搜索损坏类型" class="flex-1 outline-none text-gray-700 text-sm" id="search-input">
+        </div>
+    </div>
+    
+    <!-- 损坏类型列表 -->
+    <div class="flex-1 overflow-auto pb-16">
+        <div class="p-4 space-y-4">
+            <!-- 电缆类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-blue-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-blue-800">电缆类</h2>
+                </div>
+                
+                <!-- 电缆 -->
+                <div class="p-3">
+                    <div class="text-sm font-medium text-gray-700 mb-2">电缆</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="电缆" data-positions="前部电缆,中部电缆,后部电缆" data-repair-methods="换新">
+                            丢失
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 电源类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-green-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-green-800">电源类</h2>
+                </div>
+                
+                <!-- 电源插头 -->
+                <div class="p-3">
+                    <div class="text-sm font-medium text-gray-700 mb-2">电源插头</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="电源插头" data-positions="前部插头,后部插头" data-repair-methods="换新">
+                            破烂
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 通风类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-amber-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-amber-800">通风类</h2>
+                </div>
+                
+                <!-- 前通风板 -->
+                <div class="p-3">
+                    <div class="text-sm font-medium text-gray-700 mb-2">前通风板</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前通风板" data-positions="前部通风板,中部通风板" data-repair-methods="打正,收紧">
+                            变形
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前通风板" data-positions="前部通风板,中部通风板" data-repair-methods="打正,收紧">
+                            松脱
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 内旁类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-purple-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-purple-800">内旁类</h2>
+                </div>
+                
+                <!-- 内旁 -->
+                <div class="p-3">
+                    <div class="text-sm font-medium text-gray-700 mb-2">内旁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="内旁" data-positions="前部内旁,中部内旁,后部内旁" data-repair-methods="换新,打正,补片,打正补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="内旁" data-positions="前部内旁,中部内旁,后部内旁" data-repair-methods="换新,打正,补片,打正补焊">
+                            裂缝
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="内旁" data-positions="前部内旁,中部内旁,后部内旁" data-repair-methods="换新,打正,补片,打正补焊">
+                            霉烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="内旁" data-positions="前部内旁,中部内旁,后部内旁" data-repair-methods="换新,打正,补片,打正补焊">
+                            变形
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 水塞类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-red-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-red-800">水塞类</h2>
+                </div>
+                
+                <!-- 水塞 -->
+                <div class="p-3">
+                    <div class="text-sm font-medium text-gray-700 mb-2">水塞</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="水塞" data-positions="前部水塞,后部水塞" data-repair-methods="换新">
+                            丢失
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gray-300 border-t border-gray-400 flex justify-around py-2">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-xs mt-0.5">首页</span>
+        </a>
+        <a href="task_list.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-list-alt text-xl"></i>
+            <span class="text-xs mt-0.5">任务</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-chart-bar text-xl"></i>
+            <span class="text-xs mt-0.5">统计</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-user text-xl"></i>
+            <span class="text-xs mt-0.5">我的</span>
+        </a>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="app-bottom-nav">
+        <a href="home.html" class="app-nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="task_list.html" class="app-nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>任务</span>
+        </a>
+        <a href="#" class="app-nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>统计</span>
+        </a>
+        <a href="settings.html" class="app-nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有损坏类型选项添加点击事件
+            document.querySelectorAll('.damage-type-tag').forEach(option => {
+                option.addEventListener('click', function() {
+                    const part = this.getAttribute('data-part');
+                    const damage = this.textContent.trim();
+                    const positions = this.getAttribute('data-positions');
+                    const repairMethods = this.getAttribute('data-repair-methods');
+                    
+                    // 获取URL中的source参数
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const source = urlParams.get('source') || 'entry';
+                    
+                    // 跳转到损坏详情页面
+                    window.location.href = `damage_detail.html?part=${encodeURIComponent(part)}&damage=${encodeURIComponent(damage)}&positions=${encodeURIComponent(positions)}&repairMethods=${encodeURIComponent(repairMethods)}&source=${source}`;
+                });
+            });
+            
+            // 搜索功能
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    
+                    // 先隐藏所有部件
+                    document.querySelectorAll('.damage-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // 检查是否匹配部件或损坏类型
+                    let hasMatches = false;
+                    document.querySelectorAll('.damage-type-tag').forEach(tag => {
+                        const damage = tag.textContent.trim().toLowerCase();
+                        const part = tag.parentElement.previousElementSibling.textContent.trim().toLowerCase();
+                        
+                        if (damage.includes(searchTerm) || part.includes(searchTerm)) {
+                            // 找到匹配项，显示包含此元素的部件组
+                            tag.closest('.damage-section').style.display = 'block';
+                            hasMatches = true;
+                            
+                            // 高亮匹配项
+                            if (damage.includes(searchTerm)) {
+                                tag.classList.add('bg-blue-100');
+                            } else {
+                                tag.classList.remove('bg-blue-100');
+                            }
+                        } else {
+                            tag.classList.remove('bg-blue-100');
+                        }
+                    });
+                    
+                    // 如果没有搜索词，显示所有部件
+                    if (searchTerm === '') {
+                        document.querySelectorAll('.damage-section').forEach(section => {
+                            section.style.display = 'block';
+                        });
+                        
+                        document.querySelectorAll('.damage-type-tag').forEach(tag => {
+                            tag.classList.remove('bg-blue-100');
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

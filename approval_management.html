@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>审批管理 - 堆场验箱系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/app-style.css">
+    <link rel="stylesheet" href="css/mobile-app-style.css">
+    <style>
+        body {
+            max-width: 430px;
+            min-height: 1020px;
+            height: 1020px;
+            margin: 0 auto;
+            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-y: auto;
+        }
+        
+        .app-bottom-nav {
+            max-width: 430px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    <!-- 顶部状态栏 -->
+    <div class="bg-white px-4 py-2 flex justify-between items-center">
+        <div class="text-sm text-gray-600">9:41</div>
+        <div class="flex space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- 头部 -->
+    <div class="bg-white p-3 shadow-sm flex items-center">
+        <a href="home.html" class="mr-3">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+        </a>
+        <h1 class="text-lg font-bold text-gray-800">审批管理</h1>
+    </div>
+    
+    <!-- 审批分类 -->
+    <div class="bg-white border-t border-b border-gray-200">
+        <div class="flex">
+            <button class="flex-1 py-2 text-center text-sm font-medium text-gray-800 border-b-2 border-gray-600">
+                待审批
+            </button>
+            <button class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
+                已通过
+            </button>
+            <button class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
+                已驳回
+            </button>
+            <button class="flex-1 py-2 text-center text-sm font-medium text-gray-500">
+                全部
+            </button>
+        </div>
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="p-3 bg-white border-b border-gray-200">
+        <div class="flex items-center bg-gray-100 rounded-lg p-2">
+            <i class="fas fa-search text-gray-400 mr-2"></i>
+            <input type="text" placeholder="搜索箱号、申请人或类型" class="flex-1 bg-transparent outline-none text-gray-700 text-sm">
+        </div>
+    </div>
+    
+    <!-- 审批列表 -->
+    <div class="flex-1 overflow-auto p-3 pb-20">
+        <div class="space-y-3">
+            <!-- 审批项- 柜损维修申请 -->
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 mr-2">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-800">柜损维修申请</h3>
+                                <p class="text-xs text-gray-500">MSCU-123456-7</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">待审批</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1.5 mb-2">
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请人：</span>
+                            <span class="text-gray-700">张师傅</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请时间：</span>
+                            <span class="text-gray-700">2024-03-20 09:30</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">损坏位置：</span>
+                            <span class="text-gray-700">门框左侧</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">维修方式：</span>
+                            <span class="text-gray-700">更换</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button class="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-xs">
+                            驳回
+                        </button>
+                        <button class="bg-gray-600 text-white px-3 py-1 rounded-lg text-xs">
+                            详情
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-1 rounded-lg text-xs">
+                            通过
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 审批项- 集装箱延期申请 -->
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-500 mr-2">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-800">集装箱延期申请</h3>
+                                <p class="text-xs text-gray-500">HLXU-345678-9</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">待审批</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1.5 mb-2">
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请人：</span>
+                            <span class="text-gray-700">李经理</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请时间：</span>
+                            <span class="text-gray-700">2024-03-20 10:15</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">延期时间：</span>
+                            <span class="text-gray-700">2023-04-15 至 2023-04-25</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button class="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-xs">
+                            驳回
+                        </button>
+                        <button class="bg-gray-600 text-white px-3 py-1 rounded-lg text-xs">
+                            详情
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-1 rounded-lg text-xs">
+                            通过
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 审批项- 费用审批 -->
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-green-500 mr-2">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-800">维修费用审批</h3>
+                                <p class="text-xs text-gray-500">CMAU-789012-3</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">待审批</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1.5 mb-2">
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请人：</span>
+                            <span class="text-gray-700">王经理</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请时间：</span>
+                            <span class="text-gray-700">2024-03-19 16:45</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">费用金额：</span>
+                            <span class="text-gray-700">¥2,350.00</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">费用类型：</span>
+                            <span class="text-gray-700">维修材料</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button class="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-xs">
+                            驳回
+                        </button>
+                        <button class="bg-gray-600 text-white px-3 py-1 rounded-lg text-xs">
+                            详情
+                        </button>
+                        <button class="bg-green-600 text-white px-3 py-1 rounded-lg text-xs">
+                            通过
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 审批项- 已通过 -->
+            <div class="bg-white rounded-lg shadow-sm opacity-75">
+                <div class="p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 mr-2">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-800">柜损维修申请</h3>
+                                <p class="text-xs text-gray-500">APLU-456789-0</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">已通过</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1.5 mb-2">
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请人：</span>
+                            <span class="text-gray-700">刘师傅</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">审批时间：</span>
+                            <span class="text-gray-700">2024-03-19 14:20</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">损坏位置：</span>
+                            <span class="text-gray-700">顶板中部</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">维修方式：</span>
+                            <span class="text-gray-700">修复</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs">
+                            查看详情
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 审批项- 已驳回 -->
+            <div class="bg-white rounded-lg shadow-sm opacity-75">
+                <div class="p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-purple-500 mr-2">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-800">集装箱延期申请</h3>
+                                <p class="text-xs text-gray-500">TEMU-234567-8</p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full">已驳回</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1.5 mb-2">
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">申请人：</span>
+                            <span class="text-gray-700">赵经理</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">审批时间：</span>
+                            <span class="text-gray-700">2024-03-18 09:45</span>
+                        </div>
+                        <div class="flex items-center text-xs">
+                            <span class="text-gray-500 w-16">驳回原因：</span>
+                            <span class="text-gray-700">延期时间过长，请重新申请</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button class="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs">
+                            查看详情
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gray-300 border-t border-gray-400 flex justify-around py-2">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-xs mt-0.5">首页</span>
+        </a>
+        <a href="task_list.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-list-alt text-xl"></i>
+            <span class="text-xs mt-0.5">任务</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-800">
+            <i class="fas fa-chart-bar text-xl"></i>
+            <span class="text-xs mt-0.5">统计</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-user text-xl"></i>
+            <span class="text-xs mt-0.5">我的</span>
+        </a>
+    </div>
+    
+    <!-- 审批详情弹窗 (默认隐藏) -->
+    <div id="approval-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg w-11/12 max-h-[85vh] flex flex-col">
+            <!-- 头部 -->
+            <div class="p-3 border-b border-gray-200 flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 mr-2">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-sm">柜损维修申请</h3>
+                        <p class="text-xs text-gray-500">MSCU-123456-7</p>
+                    </div>
+                </div>
+                <button id="close-approval-detail" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- 内容区 -->
+            <div class="flex-1 overflow-y-auto p-3">
+                <!-- 状态信息 -->
+                <div class="mb-3">
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center">
+                            <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">待审批</span>
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-clock mr-1"></i> 今天 09:30
+                        </div>
+                    </div>
+                    <div class="flex items-center text-xs text-gray-500">
+                        <i class="fas fa-user mr-1"></i> 申请人：张师傅
+                        <span class="mx-2">|</span>
+                        <i class="fas fa-phone mr-1"></i> 138****1234
+                    </div>
+                </div>
+                
+                <!-- 维修信息 -->
+                <div class="bg-gray-50 rounded-lg p-2 mb-3">
+                    <h4 class="text-xs font-medium text-gray-700 mb-1.5 flex items-center">
+                        <i class="fas fa-tools mr-1"></i> 维修信息
+                    </h4>
+                    <div class="grid grid-cols-2 gap-1.5 text-xs">
+                        <div class="flex items-center">
+                            <span class="text-gray-500 whitespace-nowrap">损坏位置：</span>
+                            <span class="text-gray-700 truncate">门框左侧</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-500 whitespace-nowrap">损坏类型：</span>
+                            <span class="text-gray-700 truncate">开裂</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-500 whitespace-nowrap">维修方式：</span>
+                            <span class="text-gray-700 truncate">更换</span>
+                        </div>
+                    </div>
+                    <div class="mt-1.5 text-xs">
+                        <span class="text-gray-500">损坏说明：</span>
+                        <p class="text-gray-700 mt-0.5">门框左侧开裂，无法正常开关门，需更换整块门框板。</p>
+                    </div>
+                </div>
+                
+                <!-- 现场照片 -->
+                <div class="mb-3">
+                    <h4 class="text-xs font-medium text-gray-700 mb-1.5 flex items-center">
+                        <i class="fas fa-camera mr-1"></i> 现场照片
+                    </h4>
+                    <div class="grid grid-cols-2 gap-1.5">
+                        <div class="relative">
+                            <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
+                                <img src="https://placehold.co/100x100/e5e7eb/a1a1aa?text=照片1" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-0.5 text-center">
+                                损坏部位
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
+                                <img src="https://placehold.co/100x100/e5e7eb/a1a1aa?text=照片2" class="w-full h-full object-cover">
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-0.5 text-center">
+                                整体情况
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 审批操作 -->
+                <div>
+                    <h4 class="text-xs font-medium text-gray-700 mb-1.5 flex items-center">
+                        <i class="fas fa-check-circle mr-1"></i> 审批意见
+                    </h4>
+                    <div class="mb-2">
+                        <textarea placeholder="请输入审批意见..." class="w-full border border-gray-300 rounded-lg p-2 text-xs h-16"></textarea>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="flex-1 bg-red-100 text-red-600 py-1.5 rounded-lg text-sm">
+                            <i class="fas fa-times mr-1"></i> 驳回
+                        </button>
+                        <button class="flex-1 bg-green-600 text-white py-1.5 rounded-lg text-sm">
+                            <i class="fas fa-check mr-1"></i> 通过
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 详情按钮点击事件
+            const detailButtons = document.querySelectorAll('.bg-gray-600.text-white.px-3.py-1, .bg-gray-200.text-gray-600.px-3.py-1');
+            const approvalDetailModal = document.getElementById('approval-detail-modal');
+            const closeApprovalDetail = document.getElementById('close-approval-detail');
+            
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    approvalDetailModal.classList.remove('hidden');
+                });
+            });
+            
+            if (closeApprovalDetail) {
+                closeApprovalDetail.addEventListener('click', function() {
+                    approvalDetailModal.classList.add('hidden');
+                });
+            }
+            
+            // 审批分类切换
+            const categoryButtons = document.querySelectorAll('.flex-1.py-2.text-center');
+            const allApprovalItems = document.querySelectorAll('.bg-white.rounded-lg.shadow-sm');
+            
+            // 添加驳回和通过按钮的事件处理
+            document.addEventListener('click', function(e) {
+                // 处理驳回按钮点击
+                if (e.target.closest('.bg-red-100.text-red-600')) {
+                    const button = e.target.closest('.bg-red-100.text-red-600');
+                    const approvalItem = button.closest('.bg-white.rounded-lg.shadow-sm');
+                    if (approvalItem && !approvalItem.classList.contains('opacity-75')) {
+                        const titleElement = approvalItem.querySelector('h3.text-sm.font-medium');
+                        const title = titleElement ? titleElement.textContent : '审批项';
+                        
+                        showRejectDialog(title, function(reason) {
+                            showToast(`已驳回【${title}】`);
+                            
+                            // 更新状态标签
+                            const statusElement = approvalItem.querySelector('.px-2.py-0\\.5');
+                            if (statusElement) {
+                                statusElement.textContent = '已驳回';
+                                statusElement.classList.remove('bg-yellow-100', 'text-yellow-700');
+                                statusElement.classList.add('bg-red-100', 'text-red-700');
+                            }
+                            
+                            // 更新按钮区域
+                            const buttonsContainer = approvalItem.querySelector('.flex.justify-end');
+                            if (buttonsContainer) {
+                                buttonsContainer.innerHTML = `
+                                    <button class="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs">
+                                        查看详情
+                                    </button>
+                                `;
+                                
+                                // 添加详情按钮事件
+                                const newDetailButton = buttonsContainer.querySelector('.bg-gray-200');
+                                newDetailButton.addEventListener('click', function() {
+                                    approvalDetailModal.classList.remove('hidden');
+                                });
+                            }
+                            
+                            // 降低透明度
+                            approvalItem.classList.add('opacity-75');
+                        });
+                    }
+                }
+                
+                // 处理通过按钮点击
+                if (e.target.closest('.bg-green-600.text-white')) {
+                    const button = e.target.closest('.bg-green-600.text-white');
+                    const approvalItem = button.closest('.bg-white.rounded-lg.shadow-sm');
+                    if (approvalItem && !approvalItem.classList.contains('opacity-75')) {
+                        const titleElement = approvalItem.querySelector('h3.text-sm.font-medium');
+                        const title = titleElement ? titleElement.textContent : '审批项';
+                        
+                        showToast(`已通过【${title}】`);
+                        
+                        // 更新状态标签
+                        const statusElement = approvalItem.querySelector('.px-2.py-0\\.5');
+                        if (statusElement) {
+                            statusElement.textContent = '已通过';
+                            statusElement.classList.remove('bg-yellow-100', 'text-yellow-700');
+                            statusElement.classList.add('bg-green-100', 'text-green-700');
+                        }
+                        
+                        // 更新按钮区域
+                        const buttonsContainer = approvalItem.querySelector('.flex.justify-end');
+                        if (buttonsContainer) {
+                            buttonsContainer.innerHTML = `
+                                <button class="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs">
+                                    查看详情
+                                </button>
+                            `;
+                            
+                            // 添加详情按钮事件
+                            const newDetailButton = buttonsContainer.querySelector('.bg-gray-200');
+                            newDetailButton.addEventListener('click', function() {
+                                approvalDetailModal.classList.remove('hidden');
+                            });
+                        }
+                        
+                        // 降低透明度
+                        approvalItem.classList.add('opacity-75');
+                    }
+                }
+            });
+            
+            categoryButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    // 移除所有选中状态
+                    categoryButtons.forEach(btn => {
+                        btn.classList.remove('border-b-2', 'border-gray-600', 'text-gray-800');
+                        btn.classList.add('text-gray-500');
+                    });
+                    
+                    // 添加当前选中状态
+                    this.classList.remove('text-gray-500');
+                    this.classList.add('border-b-2', 'border-gray-600', 'text-gray-800');
+                    
+                    // 根据分类筛选内容
+                    const category = index === 0 ? '待审批' : 
+                                   index === 1 ? '已通过' : 
+                                   index === 2 ? '已驳回' : 'all';
+                    
+                    filterApprovalItems(category);
+                });
+            });
+            
+            // 筛选审批项
+            function filterApprovalItems(category) {
+                allApprovalItems.forEach(item => {
+                    const statusElement = item.querySelector('.px-2.py-0\\.5');
+                    const status = statusElement ? statusElement.textContent.trim() : '';
+                    
+                    if (category === 'all') {
+                        item.style.display = '';
+                    } else if (status === category) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // 显示筛选结果数量提示
+                const visibleCount = Array.from(allApprovalItems).filter(item => 
+                    item.style.display !== 'none').length;
+                
+                showToast(`共找到${visibleCount}条${category === 'all' ? '' : category}记录`);
+            }
+            
+            // 审批详情弹窗中的驳回和通过按钮事件
+            const detailRejectButton = approvalDetailModal.querySelector('.bg-red-100.text-red-600');
+            const detailApproveButton = approvalDetailModal.querySelector('.bg-green-600.text-white');
+            
+            if (detailRejectButton) {
+                detailRejectButton.addEventListener('click', function() {
+                    const titleElement = approvalDetailModal.querySelector('h3.font-medium');
+                    const title = titleElement ? titleElement.textContent : '审批项';
+                    
+                    showRejectDialog(title, function(reason) {
+                        showToast(`已驳回【${title}】`);
+                        approvalDetailModal.classList.add('hidden');
+                        
+                        // 更新列表中的状态
+                        const approvalItem = document.querySelector('.bg-white.rounded-lg.shadow-sm:not(.opacity-75)');
+                        if (approvalItem) {
+                            const statusElement = approvalItem.querySelector('.px-2.py-0\\.5');
+                            if (statusElement) {
+                                statusElement.textContent = '已驳回';
+                                statusElement.classList.remove('bg-yellow-100', 'text-yellow-700');
+                                statusElement.classList.add('bg-red-100', 'text-red-700');
+                            }
+                            
+                            // 更新按钮区域
+                            const buttonsContainer = approvalItem.querySelector('.flex.justify-end');
+                            if (buttonsContainer) {
+                                buttonsContainer.innerHTML = `
+                                    <button class="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs">
+                                        查看详情
+                                    </button>
+                                `;
+                                
+                                // 添加详情按钮事件
+                                const newDetailButton = buttonsContainer.querySelector('.bg-gray-200');
+                                newDetailButton.addEventListener('click', function() {
+                                    approvalDetailModal.classList.remove('hidden');
+                                });
+                            }
+                            
+                            // 降低透明度
+                            approvalItem.classList.add('opacity-75');
+                        }
+                    });
+                });
+            }
+            
+            if (detailApproveButton) {
+                detailApproveButton.addEventListener('click', function() {
+                    const titleElement = approvalDetailModal.querySelector('h3.font-medium');
+                    const title = titleElement ? titleElement.textContent : '审批项';
+                    
+                    showToast(`已通过【${title}】`);
+                    approvalDetailModal.classList.add('hidden');
+                    
+                    // 更新列表中的状态
+                    const approvalItem = document.querySelector('.bg-white.rounded-lg.shadow-sm:not(.opacity-75)');
+                    if (approvalItem) {
+                        const statusElement = approvalItem.querySelector('.px-2.py-0\\.5');
+                        if (statusElement) {
+                            statusElement.textContent = '已通过';
+                            statusElement.classList.remove('bg-yellow-100', 'text-yellow-700');
+                            statusElement.classList.add('bg-green-100', 'text-green-700');
+                        }
+                        
+                        // 更新按钮区域
+                        const buttonsContainer = approvalItem.querySelector('.flex.justify-end');
+                        if (buttonsContainer) {
+                            buttonsContainer.innerHTML = `
+                                <button class="bg-gray-200 text-gray-600 px-3 py-1 rounded-lg text-xs">
+                                    查看详情
+                                </button>
+                            `;
+                            
+                            // 添加详情按钮事件
+                            const newDetailButton = buttonsContainer.querySelector('.bg-gray-200');
+                            newDetailButton.addEventListener('click', function() {
+                                approvalDetailModal.classList.remove('hidden');
+                            });
+                        }
+                        
+                        // 降低透明度
+                        approvalItem.classList.add('opacity-75');
+                    }
+                });
+            }
+            
+            // 搜索功能
+            const searchInput = document.querySelector('input[placeholder="搜索箱号、申请人或类型"]');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.trim().toLowerCase();
+                    
+                    allApprovalItems.forEach(item => {
+                        const content = item.textContent.toLowerCase();
+                        if (query === '' || content.includes(query)) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            
+            // 显示提示消息
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm z-50';
+                toast.textContent = message;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    toast.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 500);
+                }, 2000);
+            }
+            
+            // 显示驳回理由输入对话框
+            function showRejectDialog(title, callback) {
+                const dialogOverlay = document.createElement('div');
+                dialogOverlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                dialogOverlay.id = 'reject-dialog';
+                
+                dialogOverlay.innerHTML = `
+                    <div class="bg-white rounded-lg w-11/12 max-w-sm">
+                        <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                            <h3 class="font-medium text-sm">驳回【${title}】</h3>
+                            <button id="close-reject-dialog" class="text-gray-500">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="p-4">
+                            <div class="mb-3">
+                                <label class="block text-xs text-gray-500 mb-1">驳回原因</label>
+                                <textarea id="reject-reason" placeholder="请输入驳回原因..." class="w-full border border-gray-300 rounded-lg p-2 text-sm h-20"></textarea>
+                            </div>
+                            <div class="flex space-x-3 mt-4">
+                                <button id="cancel-reject" class="flex-1 bg-gray-200 text-gray-600 py-2 rounded-lg text-sm">取消</button>
+                                <button id="confirm-reject" class="flex-1 bg-red-500 text-white py-2 rounded-lg text-sm">确认驳回</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(dialogOverlay);
+                
+                // 绑定事件
+                document.getElementById('close-reject-dialog').addEventListener('click', function() {
+                    document.body.removeChild(dialogOverlay);
+                });
+                
+                document.getElementById('cancel-reject').addEventListener('click', function() {
+                    document.body.removeChild(dialogOverlay);
+                });
+                
+                document.getElementById('confirm-reject').addEventListener('click', function() {
+                    const reason = document.getElementById('reject-reason').value;
+                    document.body.removeChild(dialogOverlay);
+                    callback(reason);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

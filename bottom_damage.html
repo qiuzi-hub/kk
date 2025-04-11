@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>底部损坏详情 - 堆场验箱系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/mobile-app-style.css">
+    <style>
+        body {
+            max-width: 430px;
+            min-height: 1020px;
+            height: 1020px;
+            margin: 0 auto;
+            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-y: auto;
+        }
+        
+        .app-bottom-nav {
+            max-width: 430px;
+            margin: 0 auto;
+        }
+        
+        .damage-type-tag {
+            transition: all 0.2s;
+        }
+        .damage-type-tag:active {
+            transform: scale(0.98);
+            background-color: #e5e7eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    <!-- 顶部状态栏 -->
+    <div class="bg-white px-4 py-2 flex justify-between items-center">
+        <div class="text-sm text-gray-600">9:41</div>
+        <div class="flex space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- 头部 -->
+    <div class="bg-white p-4 shadow-sm flex items-center">
+        <a href="entry_inspection.html" class="mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+        </a>
+        <h1 class="text-xl font-bold text-gray-800">底部损坏类型</h1>
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="p-4 bg-white">
+        <div class="flex items-center border border-gray-200 rounded-lg p-2">
+            <i class="fas fa-search text-gray-400 mr-2"></i>
+            <input type="text" placeholder="搜索损坏类型" class="flex-1 outline-none text-gray-700 text-sm" id="search-input">
+        </div>
+    </div>
+    
+    <!-- 损坏类型列表 -->
+    <div class="flex-1 overflow-auto pb-16">
+        <div class="p-4 space-y-4">
+            <!-- 底梁类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-amber-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-amber-800">底梁类</h2>
+                </div>
+                
+                <!-- 门底梁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">门底梁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="门底梁" data-positions="DG2N,DG23,DG3N" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="门底梁" data-positions="DG2N,DG23,DG3N" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="门底梁" data-positions="DG2N,DG23,DG3N" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            裂缝
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="门底梁" data-positions="DG2N,DG23,DG3N" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            霉烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="门底梁" data-positions="DG2N,DG23,DG3N" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            变形
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 前底梁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">前底梁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前底梁" data-positions="FG2N,FG23,FG3N" data-repair-methods="打正,加角,割换,打正补焊,换新,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前底梁" data-positions="FG2N,FG23,FG3N" data-repair-methods="打正,加角,割换,打正补焊,换新,补焊">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前底梁" data-positions="FG2N,FG23,FG3N" data-repair-methods="打正,加角,割换,打正补焊,换新,补焊">
+                            裂缝
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前底梁" data-positions="FG2N,FG23,FG3N" data-repair-methods="打正,加角,割换,打正补焊,换新,补焊">
+                            霉烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="前底梁" data-positions="FG2N,FG23,FG3N" data-repair-methods="打正,加角,割换,打正补焊,换新,补焊">
+                            凹损
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 左右底梁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">左底梁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            裂缝
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            霉烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            凹损
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            变形
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">右底梁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            裂缝
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            霉烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            凹损
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右底梁" data-positions="自定义" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            变形
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底横梁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">底横梁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="底横梁" data-positions="自定义" data-repair-methods="打正,加角,打正补焊,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="底横梁" data-positions="自定义" data-repair-methods="打正,加角,打正补焊,补焊">
+                            凹损
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="底横梁" data-positions="自定义" data-repair-methods="打正,加角,打正补焊,补焊">
+                            变形
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 短底梁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">短底梁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="短底梁" data-positions="UL0N,UL8N,UL9N,UR0N,UR8N,UL9N" data-repair-methods="加角,换新">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="短底梁" data-positions="UL0N,UL8N,UL9N,UR0N,UR8N,UL9N" data-repair-methods="加角,换新">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 铲袋类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-blue-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-blue-800">铲袋类</h2>
+                </div>
+                
+                <!-- 铲袋阵 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">铲袋阵</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="铲袋阵" data-positions="UX4N,UX2N,UL4N,UR4N,UR2N" data-repair-methods="打正,加角,换新,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="铲袋阵" data-positions="UX4N,UX2N,UL4N,UR4N,UR2N" data-repair-methods="打正,加角,换新,补焊">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 铲袋结构 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">铲袋结构</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="铲袋结构" data-positions="UX2N,UX4N,UL2N,UL4N,UR2N,UR4N" data-repair-methods="打正,加角,换新,补焊">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="铲袋结构" data-positions="UX2N,UX4N,UL2N,UL4N,UR2N,UR4N" data-repair-methods="打正,加角,换新,补焊">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 铲袋顶铁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">铲袋顶铁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="铲袋顶铁" data-positions="自定义" data-repair-methods="打正,加角">
+                            变形
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 左边铲袋铁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">左边铲袋铁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左边铲袋铁" data-positions="UL2N,UL4N" data-repair-methods="打正,加角,割换,打正补焊,补焊">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右边铲袋铁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">右边铲袋铁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右边铲袋铁" data-positions="UR2N,UR4N" data-repair-methods="打正,换新">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部附加结构 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-green-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-green-800">底部附加结构</h2>
+                </div>
+                
+                <!-- 左边隧道阵 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">左边隧道阵</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左边隧道阵" data-positions="自定义" data-repair-methods="加角">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左边隧道阵" data-positions="自定义" data-repair-methods="加角">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="左边隧道阵" data-positions="自定义" data-repair-methods="加角">
+                            霉烂
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右边遂道阵 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">右边遂道阵</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右边遂道阵" data-positions="自定义" data-repair-methods="加角">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右边遂道阵" data-positions="自定义" data-repair-methods="加角">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="右边遂道阵" data-positions="自定义" data-repair-methods="加角">
+                            霉烂
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 鹅颈阵 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">鹅颈阵</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="鹅颈阵" data-positions="自定义" data-repair-methods="加角">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="鹅颈阵" data-positions="自定义" data-repair-methods="加角">
+                            霉烂
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 补强类 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden damage-section">
+                <div class="p-3 bg-purple-50 border-b border-gray-200">
+                    <h2 class="text-base font-semibold text-purple-800">补强类</h2>
+                </div>
+                
+                <!-- C型加力铁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">C型加力铁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="C型加力铁" data-positions="DG1N,DG4N,FG1N,FG4N" data-repair-methods="打正,换新">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="C型加力铁" data-positions="DG1N,DG4N,FG1N,FG4N" data-repair-methods="打正,换新">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 防撞C型槽钢 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">防撞C型槽钢</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="防撞C型槽钢" data-positions="自定义" data-repair-methods="打正,换新">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="防撞C型槽钢" data-positions="自定义" data-repair-methods="打正,换新">
+                            向外凸
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 梁加强板(三角虎) -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">梁加强板(三角虎)</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="梁加强板(三角虎)" data-positions="自定义" data-repair-methods="打正,换新">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="梁加强板(三角虎)" data-positions="自定义" data-repair-methods="打正,换新">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="梁加强板(三角虎)" data-positions="自定义" data-repair-methods="打正,换新">
+                            凹损
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底阵加力铁 -->
+                <div class="p-3 border-b border-gray-100">
+                    <div class="text-sm font-medium text-gray-700 mb-2">底阵加力铁</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="底阵加力铁" data-positions="自定义" data-repair-methods="换新">
+                            凹损
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 龙骨 -->
+                <div class="p-3">
+                    <div class="text-sm font-medium text-gray-700 mb-2">龙骨</div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="龙骨" data-positions="自定义" data-repair-methods="打正,割换">
+                            破烂
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="龙骨" data-positions="自定义" data-repair-methods="打正,割换">
+                            向外凸
+                        </div>
+                        <div class="damage-type-tag px-2 py-1 bg-gray-100 rounded text-sm cursor-pointer text-gray-800" 
+                            data-part="龙骨" data-positions="自定义" data-repair-methods="打正,割换">
+                            变形
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gray-300 border-t border-gray-400 flex justify-around py-2">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-xs mt-0.5">首页</span>
+        </a>
+        <a href="task_list.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-list-alt text-xl"></i>
+            <span class="text-xs mt-0.5">任务</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-chart-bar text-xl"></i>
+            <span class="text-xs mt-0.5">统计</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-user text-xl"></i>
+            <span class="text-xs mt-0.5">我的</span>
+        </a>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有损坏类型选项添加点击事件
+            document.querySelectorAll('.damage-type-tag').forEach(option => {
+                option.addEventListener('click', function() {
+                    const part = this.getAttribute('data-part');
+                    const damage = this.textContent.trim();
+                    const positions = this.getAttribute('data-positions');
+                    const repairMethods = this.getAttribute('data-repair-methods');
+                    
+                    // 获取URL中的source参数
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const source = urlParams.get('source') || 'entry';
+                    
+                    // 跳转到损坏详情页面
+                    window.location.href = `damage_detail.html?part=${encodeURIComponent(part)}&damage=${encodeURIComponent(damage)}&positions=${encodeURIComponent(positions)}&repairMethods=${encodeURIComponent(repairMethods)}&source=${source}`;
+                });
+            });
+            
+            // 搜索功能
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    
+                    // 先隐藏所有部件
+                    document.querySelectorAll('.damage-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // 检查是否匹配部件或损坏类型
+                    let hasMatches = false;
+                    document.querySelectorAll('.damage-type-tag').forEach(tag => {
+                        const damage = tag.textContent.trim().toLowerCase();
+                        const part = tag.parentElement.previousElementSibling.textContent.trim().toLowerCase();
+                        
+                        if (damage.includes(searchTerm) || part.includes(searchTerm)) {
+                            // 找到匹配项，显示包含此元素的部件组
+                            tag.closest('.damage-section').style.display = 'block';
+                            hasMatches = true;
+                            
+                            // 高亮匹配项
+                            if (damage.includes(searchTerm)) {
+                                tag.classList.add('bg-blue-100');
+                            } else {
+                                tag.classList.remove('bg-blue-100');
+                            }
+                        } else {
+                            tag.classList.remove('bg-blue-100');
+                        }
+                    });
+                    
+                    // 如果没有搜索词，显示所有部件
+                    if (searchTerm === '') {
+                        document.querySelectorAll('.damage-section').forEach(section => {
+                            section.style.display = 'block';
+                        });
+                        
+                        document.querySelectorAll('.damage-type-tag').forEach(tag => {
+                            tag.classList.remove('bg-blue-100');
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

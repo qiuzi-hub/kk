@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>任务列表 - 堆场验箱系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/app-style.css">
+    <link rel="stylesheet" href="css/mobile-app-style.css">
+    <style>
+        body {
+            max-width: 430px;
+            min-height: 1020px;
+            height: 1020px;
+            margin: 0 auto;
+            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-y: auto;
+        }
+        
+        .app-bottom-nav {
+            max-width: 430px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col">
+    <!-- 顶部状态栏 -->
+    <div class="bg-white px-4 py-2 flex justify-between items-center">
+        <div class="text-sm text-gray-600">9:41</div>
+        <div class="flex space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- 头部 -->
+    <div class="bg-white p-3 shadow-sm flex items-center">
+        <a href="home.html" class="mr-3">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+        </a>
+        <h1 class="text-lg font-bold text-gray-800">任务列表</h1>
+        <div class="ml-auto flex items-center">
+            <button class="bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs mr-2">
+                <i class="fas fa-filter"></i>
+            </button>
+            <button class="bg-gray-600 text-white px-3 py-1 rounded text-xs flex items-center">
+                <i class="fas fa-plus mr-1"></i> 新建
+            </button>
+        </div>
+    </div>
+    
+    <!-- 任务分类 -->
+    <div class="bg-white border-t border-b border-gray-200">
+        <div class="flex">
+            <button class="task-category flex-1 py-2 text-center text-sm font-medium text-gray-800 border-b-2 border-gray-600" data-category="all">
+                全部
+            </button>
+            <button class="task-category flex-1 py-2 text-center text-sm font-medium text-gray-500" data-category="pending">
+                待处理
+            </button>
+            <button class="task-category flex-1 py-2 text-center text-sm font-medium text-gray-500" data-category="inprogress">
+                进行中
+            </button>
+            <button class="task-category flex-1 py-2 text-center text-sm font-medium text-gray-500" data-category="completed">
+                已完成
+            </button>
+        </div>
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="p-3 bg-white border-b border-gray-200">
+        <div class="flex items-center bg-gray-100 rounded-lg p-2">
+            <i class="fas fa-search text-gray-400 mr-2"></i>
+            <input type="text" placeholder="搜索箱号、位置或任务类型" class="flex-1 bg-transparent outline-none text-gray-700 text-sm">
+        </div>
+    </div>
+    
+    <!-- 任务列表 -->
+    <div class="flex-1 overflow-auto p-3 pb-20">
+        <div class="space-y-3" id="task-list-container">
+            <!-- 任务1 - 高优先级 -->
+            <div class="bg-white rounded-lg shadow-sm task-item" data-status="pending" data-priority="high">
+                <div class="p-3 border-l-4 border-red-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-800">MSCU-123456-7</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500 mr-2">进场检查</span>
+                                <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full">高优先级</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">10:30</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i> A12-05
+                        </div>
+                        <button class="process-task-btn bg-gray-600 text-white px-2 py-1 rounded text-xs" data-container="MSCU-123456-7" data-type="进场检查" data-location="A12-05" data-status="pending" data-priority="high" data-date="2024-04-01 10:30">
+                            处理
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 任务2 - 进行中 -->
+            <div class="bg-white rounded-lg shadow-sm task-item" data-status="inprogress" data-priority="medium">
+                <div class="p-3 border-l-4 border-yellow-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-800">HLXU-345678-9</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500 mr-2">现场检查</span>
+                                <span class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">进行中</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">09:15</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i> B05-12
+                        </div>
+                        <button class="process-task-btn bg-gray-600 text-white px-2 py-1 rounded text-xs" data-container="HLXU-345678-9" data-type="现场检查" data-location="B05-12" data-status="inprogress" data-priority="medium" data-date="2024-04-01 09:15">
+                            继续
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 任务3 - 普通 -->
+            <div class="bg-white rounded-lg shadow-sm task-item" data-status="pending" data-priority="normal">
+                <div class="p-3 border-l-4 border-gray-300">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-800">CMAU-789012-3</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500 mr-2">维修确认</span>
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded-full">待处理</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">13:45</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i> C08-03
+                        </div>
+                        <button class="process-task-btn bg-gray-600 text-white px-2 py-1 rounded text-xs" data-container="CMAU-789012-3" data-type="维修确认" data-location="C08-03" data-status="pending" data-priority="normal" data-date="2024-04-01 13:45">
+                            处理
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 任务4 - 已完成 -->
+            <div class="bg-white rounded-lg shadow-sm opacity-75 task-item" data-status="completed" data-priority="normal">
+                <div class="p-3 border-l-4 border-green-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-800">APLU-456789-0</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500 mr-2">图片上传</span>
+                                <span class="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">已完成</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">昨天</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-map-marker-alt mr-1"></i> A06-09
+                        </div>
+                        <button class="process-task-btn bg-gray-200 text-gray-600 px-2 py-1 rounded text-xs" data-container="APLU-456789-0" data-type="图片上传" data-location="A06-09" data-status="completed" data-priority="normal" data-date="2024-03-31 15:20">
+                            详情
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 任务5 - 已指派 -->
+            <div class="bg-white rounded-lg shadow-sm task-item" data-status="pending" data-priority="normal">
+                <div class="p-3 border-l-4 border-blue-500">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-800">TEMU-234567-8</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500 mr-2">进场检查</span>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">已指派</span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">14:00</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-xs text-gray-500">
+                            <i class="fas fa-user mr-1"></i> 李工 
+                            <i class="fas fa-map-marker-alt ml-2 mr-1"></i> D11-07
+                        </div>
+                        <button class="process-task-btn bg-gray-600 text-white px-2 py-1 rounded text-xs" data-container="TEMU-234567-8" data-type="进场检查" data-location="D11-07" data-status="pending" data-priority="normal" data-date="2024-04-01 14:00" data-assignee="李工">
+                            接手
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="app-bottom-nav bg-gray-300 border-t border-gray-400 flex justify-around py-2">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-xs mt-0.5">首页</span>
+        </a>
+        <a href="task_list.html" class="flex flex-col items-center text-gray-800">
+            <i class="fas fa-list-alt text-xl"></i>
+            <span class="text-xs mt-0.5">任务</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-chart-bar text-xl"></i>
+            <span class="text-xs mt-0.5">统计</span>
+        </a>
+        <a href="settings.html" class="flex flex-col items-center text-gray-500">
+            <i class="fas fa-user text-xl"></i>
+            <span class="text-xs mt-0.5">我的</span>
+        </a>
+    </div>
+    
+    <!-- 添加任务的弹窗（默认隐藏） -->
+    <div id="add-task-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg w-11/12 max-w-sm">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="font-medium">新建任务</h3>
+                <button id="close-add-task" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <form>
+                    <div class="mb-3">
+                        <label class="block text-xs text-gray-500 mb-1">任务类型</label>
+                        <select class="w-full border border-gray-300 rounded-lg p-2 text-sm">
+                            <option>进场检查</option>
+                            <option>现场检查</option>
+                            <option>维修确认</option>
+                            <option>图片上传</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs text-gray-500 mb-1">箱号</label>
+                        <input type="text" placeholder="输入箱号" class="w-full border border-gray-300 rounded-lg p-2 text-sm">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs text-gray-500 mb-1">位置</label>
+                        <input type="text" placeholder="输入堆场位置" class="w-full border border-gray-300 rounded-lg p-2 text-sm">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs text-gray-500 mb-1">优先级</label>
+                        <div class="flex space-x-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="priority" class="mr-1">
+                                <span class="text-sm">普通</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="priority" class="mr-1">
+                                <span class="text-sm">紧急</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="priority" class="mr-1">
+                                <span class="text-sm">高优先级</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs text-gray-500 mb-1">备注</label>
+                        <textarea placeholder="添加备注信息" class="w-full border border-gray-300 rounded-lg p-2 text-sm h-20"></textarea>
+                    </div>
+                    <div class="flex space-x-3 mt-4">
+                        <button type="button" class="flex-1 bg-gray-200 text-gray-600 py-2 rounded-lg text-sm">取消</button>
+                        <button type="submit" class="flex-1 bg-gray-600 text-white py-2 rounded-lg text-sm">创建</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 添加任务详情模态框 -->
+    <div id="task-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg w-11/12 max-w-sm max-h-[80vh] overflow-auto">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white">
+                <h3 class="font-medium">任务详情</h3>
+                <button id="close-task-detail" class="text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="p-4">
+                <!-- 任务基本信息 -->
+                <div class="mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <h3 id="task-container-number" class="text-lg font-medium text-gray-800">MSCU-123456-7</h3>
+                        </div>
+                        <span id="task-status-badge" class="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">待处理</span>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1.5 mb-3">
+                        <div class="flex items-center text-sm">
+                            <span class="text-gray-500 w-20">任务类型：</span>
+                            <span id="task-type" class="text-gray-700">进场检查</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="text-gray-500 w-20">位置：</span>
+                            <span id="task-location" class="text-gray-700">A12-05</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="text-gray-500 w-20">创建时间：</span>
+                            <span id="task-date" class="text-gray-700">2024-04-01 10:30</span>
+                        </div>
+                        <div id="task-assignee-container" class="flex items-center text-sm hidden">
+                            <span class="text-gray-500 w-20">负责人：</span>
+                            <span id="task-assignee" class="text-gray-700">李工</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 任务相关图片 -->
+                <div class="mb-4">
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">相关图片</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/100x100/e5e7eb/a1a1aa?text=箱体照片" class="w-full h-full object-cover">
+                        </div>
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
+                            <img src="https://placehold.co/100x100/e5e7eb/a1a1aa?text=位置照片" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 任务备注 -->
+                <div class="mb-4" id="task-notes-container">
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">备注</h4>
+                    <p id="task-notes" class="text-sm text-gray-600 bg-gray-50 p-3 rounded-lg">该任务需要尽快完成，箱体有明显损坏迹象。</p>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div id="pending-actions" class="flex space-x-2">
+                    <button class="flex-1 bg-gray-200 text-gray-700 py-2 rounded text-sm" onclick="closeTaskDetailModal()">
+                        取消
+                    </button>
+                    <a href="" id="start-process-link" class="flex-1 bg-gray-600 text-white py-2 rounded text-sm text-center">
+                        开始处理
+                    </a>
+                </div>
+                
+                <div id="inprogress-actions" class="flex space-x-2 hidden">
+                    <button class="flex-1 bg-gray-200 text-gray-700 py-2 rounded text-sm" onclick="closeTaskDetailModal()">
+                        取消
+                    </button>
+                    <a href="" id="continue-process-link" class="flex-1 bg-gray-600 text-white py-2 rounded text-sm text-center">
+                        继续处理
+                    </a>
+                </div>
+                
+                <div id="completed-actions" class="flex justify-center hidden">
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded text-sm" onclick="closeTaskDetailModal()">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 等待页面完全加载
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成');
+            
+            // 显示提示消息函数
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm z-50';
+                toast.textContent = message;
+                console.log('显示提示:', message);
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    toast.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 500);
+                }, 2000);
+            }
+            
+            // 处理新建任务逻辑
+            function setupNewTaskModal() {
+                const addButton = document.querySelector('.bg-gray-600.text-white.px-3.py-1.rounded.text-xs.flex.items-center');
+                const addTaskModal = document.getElementById('add-task-modal');
+                const closeAddTask = document.getElementById('close-add-task');
+                const cancelButton = document.querySelector('button[type="button"].flex-1.bg-gray-200');
+                const createTaskButton = document.querySelector('button[type="submit"].flex-1.bg-gray-600');
+                
+                console.log('新建按钮:', addButton ? '找到' : '未找到');
+                console.log('模态框:', addTaskModal ? '找到' : '未找到');
+                
+                if (addButton) {
+                    addButton.addEventListener('click', function() {
+                        console.log('点击新建按钮');
+                        addTaskModal.classList.remove('hidden');
+                    });
+                }
+                
+                if (closeAddTask) {
+                    closeAddTask.addEventListener('click', function() {
+                        addTaskModal.classList.add('hidden');
+                    });
+                }
+                
+                if (cancelButton) {
+                    cancelButton.addEventListener('click', function() {
+                        addTaskModal.classList.add('hidden');
+                    });
+                }
+                
+                if (createTaskButton) {
+                    createTaskButton.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log('点击创建任务按钮');
+                        // 获取表单数据
+                        const form = this.closest('form');
+                        const taskType = form.querySelector('select').value;
+                        const containerNo = form.querySelector('input[placeholder="输入箱号"]').value;
+                        const location = form.querySelector('input[placeholder="输入堆场位置"]').value;
+                        const priority = form.querySelector('input[name="priority"]:checked');
+                        const priorityValue = priority ? priority.nextElementSibling.textContent : '普通';
+                        const remark = form.querySelector('textarea').value;
+                        
+                        if (!containerNo || !location) {
+                            showToast('请输入箱号和位置信息');
+                            return;
+                        }
+                        
+                        console.log('创建任务:', taskType, containerNo, location, priorityValue);
+                        showToast('任务创建成功');
+                        addTaskModal.classList.add('hidden');
+                        
+                        // 动态添加新任务到列表
+                        addNewTask(taskType, containerNo, location, priorityValue, remark);
+                    });
+                }
+            }
+            
+            // 设置任务分类切换
+            function setupCategoryButtons() {
+                // 使用更精确的选择器
+                const categoryButtons = document.querySelectorAll('.task-category');
+                console.log('分类按钮数量:', categoryButtons.length);
+                
+                categoryButtons.forEach((button, index) => {
+                    console.log(`分类按钮 ${index}:`, button.textContent.trim());
+                    
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault(); // 防止默认行为
+                        console.log('点击分类按钮:', this.textContent.trim());
+                        
+                        // 移除所有选中状态
+                        categoryButtons.forEach(btn => {
+                            btn.classList.remove('text-gray-800', 'border-b-2', 'border-gray-600');
+                            btn.classList.add('text-gray-500');
+                        });
+                        
+                        // 添加当前选中状态
+                        this.classList.remove('text-gray-500');
+                        this.classList.add('text-gray-800', 'border-b-2', 'border-gray-600');
+                        
+                        // 获取选中的分类
+                        const category = this.getAttribute('data-category');
+                        
+                        console.log('筛选类别:', category);
+                        filterTasks(category);
+                    });
+                });
+            }
+            
+            // 筛选任务项目
+            function filterTasks(category) {
+                const taskItems = document.querySelectorAll('.task-item');
+                console.log('找到任务项数量:', taskItems.length);
+                
+                let visibleCount = 0;
+                
+                taskItems.forEach(item => {
+                    const status = item.getAttribute('data-status');
+                    console.log('任务项状态:', status);
+                    
+                    let shouldShow = false;
+                    
+                    if (category === 'all') {
+                        shouldShow = true;
+                    } else if (status === category) {
+                        shouldShow = true;
+                    } else if (category === '待处理' && (status === '已指派' || status === '高优先级')) {
+                        shouldShow = true;
+                    }
+                    
+                    if (shouldShow) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                showToast(`共找到 ${visibleCount} 个${category === 'all' ? '' : category}任务`);
+            }
+            
+            // 设置所有任务按钮（处理、继续、详情）
+            function setupTaskButtons() {
+                const allButtons = document.querySelectorAll('.process-task-btn');
+                console.log('找到任务按钮数量:', allButtons.length);
+                
+                allButtons.forEach(button => {
+                    const buttonText = button.textContent.trim();
+                    console.log('按钮文本:', buttonText);
+                    
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault(); // 防止默认行为
+                        console.log('点击按钮:', buttonText);
+                        
+                        const taskItem = this.closest('.task-item');
+                        if (!taskItem) {
+                            console.log('未找到任务项容器');
+                            return;
+                        }
+                        
+                        const containerNo = taskItem.querySelector('h3.text-sm.font-medium')?.textContent;
+                        const taskTypeElement = taskItem.querySelector('.text-xs.text-gray-500.mr-2');
+                        const taskType = taskTypeElement ? taskTypeElement.textContent : '';
+                        
+                        console.log('箱号:', containerNo);
+                        console.log('任务类型:', taskType);
+                        
+                        // 获取任务状态
+                        const status = taskItem.getAttribute('data-status');
+                        const priority = taskItem.getAttribute('data-priority');
+                        const date = taskItem.getAttribute('data-date');
+                        const assignee = taskItem.getAttribute('data-assignee');
+                        
+                        // 显示任务详情
+                        showTaskDetail(containerNo, taskType, taskItem.querySelector('.text-xs.text-gray-500').textContent, status, priority, date, assignee);
+                    });
+                });
+            }
+            
+            // 设置搜索功能
+            function setupSearch() {
+                const searchInput = document.querySelector('input[placeholder="搜索箱号、位置或任务类型"]');
+                if (searchInput) {
+                    searchInput.addEventListener('input', function() {
+                        const query = this.value.trim().toLowerCase();
+                        console.log('搜索查询:', query);
+                        
+                        const allTaskItems = document.querySelectorAll('.task-item');
+                        let matchCount = 0;
+                        
+                        allTaskItems.forEach(item => {
+                            const content = item.textContent.toLowerCase();
+                            if (query === '' || content.includes(query)) {
+                                item.style.display = '';
+                                matchCount++;
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                        
+                        if (query) {
+                            showToast(`搜索到 ${matchCount} 条结果`);
+                        }
+                    });
+                }
+            }
+            
+            // 动态添加新任务
+            function addNewTask(taskType, containerNo, location, priority, remark) {
+                const taskList = document.querySelector('#task-list-container');
+                
+                const priorityClass = priority === '高优先级' ? 'border-red-500' : 
+                                     priority === '紧急' ? 'border-purple-500' : 'border-gray-300';
+                                     
+                const priorityBadge = priority === '高优先级' ? 'bg-red-100 text-red-700' : 
+                                     priority === '紧急' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700';
+                
+                const newTask = document.createElement('div');
+                newTask.className = 'bg-white rounded-lg shadow-sm task-item';
+                newTask.setAttribute('data-status', 'pending');
+                newTask.setAttribute('data-priority', priority);
+                newTask.innerHTML = `
+                    <div class="p-3 border-l-4 ${priorityClass}">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-sm font-medium text-gray-800">${containerNo}</h3>
+                                <div class="flex items-center mt-1">
+                                    <span class="text-xs text-gray-500 mr-2">${taskType}</span>
+                                    <span class="px-2 py-0.5 ${priorityBadge} text-xs rounded-full">待处理</span>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-500">刚刚</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-xs text-gray-500">
+                                <i class="fas fa-map-marker-alt mr-1"></i> ${location}
+                                ${remark ? `<div class="mt-1 text-xs text-gray-400">${remark}</div>` : ''}
+                            </div>
+                            <button class="process-task-btn bg-gray-600 text-white px-2 py-1 rounded text-xs" data-container="${containerNo}" data-type="${taskType}" data-location="${location}" data-status="pending" data-priority="${priority}" data-date="${new Date().toISOString().split('T')[0]}">
+                                处理
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // 在列表开头插入新任务
+                taskList.insertBefore(newTask, taskList.firstChild);
+                console.log('添加了新任务:', containerNo);
+                
+                // 重新绑定所有按钮的事件（包括新添加的）
+                setupTaskButtons();
+            }
+            
+            // 显示任务详情
+            function showTaskDetail(container, type, location, status, priority, date, assignee) {
+                // 设置任务详情信息
+                document.getElementById('task-container-number').textContent = container;
+                document.getElementById('task-type').textContent = type;
+                document.getElementById('task-location').textContent = location;
+                document.getElementById('task-date').textContent = date;
+                
+                // 设置负责人（如果有）
+                if (assignee) {
+                    document.getElementById('task-assignee').textContent = assignee;
+                    document.getElementById('task-assignee-container').classList.remove('hidden');
+                } else {
+                    document.getElementById('task-assignee-container').classList.add('hidden');
+                }
+                
+                // 设置状态标签
+                const statusBadge = document.getElementById('task-status-badge');
+                statusBadge.className = 'px-2 py-0.5 text-xs rounded-full';
+                
+                // 根据状态设置显示的操作按钮
+                document.getElementById('pending-actions').classList.add('hidden');
+                document.getElementById('inprogress-actions').classList.add('hidden');
+                document.getElementById('completed-actions').classList.add('hidden');
+                
+                // 根据任务类型设置跳转页面
+                const startProcessLink = document.getElementById('start-process-link');
+                const continueProcessLink = document.getElementById('continue-process-link');
+                
+                if (type.trim() === '现场检查') {
+                    startProcessLink.href = 'field_inspection.html';
+                    continueProcessLink.href = 'field_inspection.html';
+                } else if (type.trim() === '进场检查') {
+                    startProcessLink.href = 'entry_inspection.html';
+                    continueProcessLink.href = 'entry_inspection.html';
+                } else if (type.trim() === '维修确认') {
+                    startProcessLink.href = 'repair_completion.html';
+                    continueProcessLink.href = 'repair_completion.html';
+                } else if (type.trim() === '图片上传') {
+                    startProcessLink.href = 'photo_upload.html';
+                    continueProcessLink.href = 'photo_upload.html';
+                } else {
+                    // 默认跳转到进场检验页面
+                    startProcessLink.href = 'entry_inspection.html';
+                    continueProcessLink.href = 'entry_inspection.html';
+                }
+                
+                switch(status) {
+                    case 'pending':
+                        statusBadge.classList.add('bg-gray-100', 'text-gray-700');
+                        statusBadge.textContent = '待处理';
+                        document.getElementById('pending-actions').classList.remove('hidden');
+                        break;
+                    case 'inprogress':
+                        statusBadge.classList.add('bg-yellow-100', 'text-yellow-700');
+                        statusBadge.textContent = '进行中';
+                        document.getElementById('inprogress-actions').classList.remove('hidden');
+                        break;
+                    case 'completed':
+                        statusBadge.classList.add('bg-green-100', 'text-green-700');
+                        statusBadge.textContent = '已完成';
+                        document.getElementById('completed-actions').classList.remove('hidden');
+                        break;
+                }
+                
+                // 显示模态框
+                document.getElementById('task-detail-modal').classList.remove('hidden');
+            }
+            
+            // 关闭任务详情模态框
+            function closeTaskDetailModal() {
+                document.getElementById('task-detail-modal').classList.add('hidden');
+            }
+            
+            // 关闭按钮事件
+            document.getElementById('close-task-detail').addEventListener('click', closeTaskDetailModal);
+            
+            // 添加任务和关闭按钮的事件（使用现有代码）
+            document.querySelector('.bg-gray-600.text-white').addEventListener('click', function() {
+                document.getElementById('add-task-modal').classList.remove('hidden');
+            });
+            
+            document.getElementById('close-add-task').addEventListener('click', function() {
+                document.getElementById('add-task-modal').classList.add('hidden');
+            });
+            
+            // 初始化所有功能
+            setupNewTaskModal();
+            setupCategoryButtons();
+            setupTaskButtons();
+            setupSearch();
+            
+            console.log('所有事件已绑定');
+        });
+    </script>
+</body>
+</html> 

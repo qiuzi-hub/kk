@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>损坏详情 - 堆场验箱系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/mobile-app-style.css">
+    <style>
+        body {
+            max-width: 430px;
+            min-height: 1020px;
+            height: 1020px;
+            margin: 0 auto;
+            position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-y: auto;
+        }
+        
+        .app-bottom-nav {
+            max-width: 430px;
+            margin: 0 auto;
+        }
+        
+        .position-option, .repair-method-option, .new-old-option {
+            transition: all 0.2s;
+        }
+        
+        .position-option:active, .repair-method-option:active, .new-old-option:active {
+            transform: scale(0.98);
+        }
+        
+        .app-form-section {
+            background-color: white;
+            border-radius: var(--app-border-radius);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--app-card-shadow);
+        }
+        
+        .app-form-field {
+            display: flex;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--app-border-color);
+            padding-bottom: 12px;
+        }
+        
+        .app-form-label {
+            width: 80px;
+            color: var(--app-text-secondary);
+            font-size: 14px;
+        }
+        
+        .app-form-input {
+            flex: 1;
+            border: 1px solid var(--app-border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .app-form-input:focus {
+            outline: none;
+            border-color: var(--app-highlight-color);
+        }
+        
+        .photo-upload-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .add-photo-btn {
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9fafb;
+            border: 1px dashed var(--app-border-color);
+            border-radius: 8px;
+            color: var(--app-text-secondary);
+        }
+        
+        .photo-placeholder {
+            aspect-ratio: 1/1;
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--app-text-secondary);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            position: fixed;
+            bottom: var(--app-bottom-nav-height);
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 1px solid var(--app-border-color);
+            max-width: 430px;
+            margin: 0 auto;
+            z-index: 10;
+        }
+        
+        .action-button {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .primary-button {
+            background-color: var(--app-primary-color);
+            color: white;
+        }
+        
+        .secondary-button {
+            background-color: #f3f4f6;
+            color: var(--app-text-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="app-status-bar">
+        <div>9:41</div>
+        <div class="flex items-center space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- 头部 -->
+    <div class="app-header">
+        <a href="#" id="back-button" class="app-back-button">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+        </a>
+        <h1 class="app-header-title">损坏详情</h1>
+    </div>
+    
+    <!-- 损坏详情内容 -->
+    <div class="app-content pb-32">
+        <!-- 损坏信息 -->
+        <div class="app-form-section">
+            <h2 class="text-base font-medium text-gray-800 mb-3">损坏信息</h2>
+            
+            <div class="space-y-3">
+                <!-- 部件选择 -->
+                <div class="app-form-field">
+                    <div class="app-form-label">部件</div>
+                    <div class="flex-1">
+                        <span class="text-sm text-gray-700" id="part-display"></span>
+                    </div>
+                </div>
+                
+                <!-- 损坏类型选择 -->
+                <div class="app-form-field">
+                    <div class="app-form-label">损坏类型</div>
+                    <div class="flex-1">
+                        <span class="text-sm text-gray-700" id="damage-display"></span>
+                    </div>
+                </div>
+                
+                <!-- 损坏位置选择 -->
+                <div class="app-form-field pb-3 mb-3">
+                    <div class="app-form-label pt-1">损坏位置</div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap gap-2 mb-2" id="damage-positions">
+                            <!-- 这里将通过JavaScript动态添加推荐位置选项 -->
+                        </div>
+                        
+                        <!-- 自定义位置输入 -->
+                        <div class="flex items-center mt-2">
+                            <input type="text" id="custom-position" placeholder="输入自定义位置" class="flex-1 outline-none text-sm text-gray-700 p-1.5 border border-gray-200 rounded-lg">
+                            <button id="add-position-btn" class="ml-2 px-3 py-1.5 bg-gray-200 rounded-lg text-sm">添加</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 已选位置显示区域 -->
+                <div class="mb-4 pl-3 border-l-2 border-gray-200">
+                    <p class="text-xs text-gray-500 mb-2">已选位置:</p>
+                    <div class="flex flex-wrap gap-2" id="selected-positions"></div>
+                </div>
+                
+                <!-- 维修方式选择 -->
+                <div class="app-form-field">
+                    <div class="app-form-label pt-1">维修方式</div>
+                    <div class="flex-1">
+                        <div class="flex flex-wrap gap-2" id="repair-methods">
+                            <!-- 维修方式选项 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 长度输入 -->
+                <div class="app-form-field">
+                    <div class="app-form-label">长度(cm)</div>
+                    <input type="number" min="0" step="0.1" placeholder="输入长度" class="app-form-input">
+                </div>
+                
+                <!-- 宽度输入 -->
+                <div class="app-form-field">
+                    <div class="app-form-label">宽度(cm)</div>
+                    <input type="number" min="0" step="0.1" placeholder="输入宽度" class="app-form-input">
+                </div>
+                
+                <!-- 新旧口选择 -->
+                <div class="app-form-field">
+                    <div class="app-form-label">新旧口</div>
+                    <div class="flex-1 flex space-x-4">
+                        <div class="px-3 py-2 rounded-lg border border-gray-150 cursor-pointer new-old-option flex-1 text-center" data-value="new">
+                            <span class="text-sm text-gray-700">新</span>
+                        </div>
+                        <div class="px-3 py-2 rounded-lg border border-gray-150 cursor-pointer new-old-option flex-1 text-center" data-value="old">
+                            <span class="text-sm text-gray-700">旧</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 数量输入 -->
+                <div class="app-form-field">
+                    <div class="app-form-label">数量</div>
+                    <input type="number" class="app-form-input" placeholder="输入数量">
+                </div>
+            </div>
+        </div>
+        
+        <!-- 照片上传 -->
+        <div class="app-form-section">
+            <h2 class="text-base font-medium text-gray-800 mb-3">照片上传</h2>
+            
+            <div class="photo-upload-container">
+                <div class="add-photo-btn">
+                    <i class="fas fa-plus text-gray-400"></i>
+                </div>
+                <div class="photo-placeholder">
+                    <i class="fas fa-image text-xl"></i>
+                </div>
+                <div class="photo-placeholder">
+                    <i class="fas fa-image text-xl"></i>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mt-4">
+                <button class="px-4 py-2 bg-gray-600 text-white rounded-lg text-sm flex items-center">
+                    <i class="fas fa-camera mr-2"></i> 拍照上传
+                </button>
+            </div>
+        </div>
+        
+        <!-- 备注 -->
+        <div class="app-form-section">
+            <h2 class="text-base font-medium text-gray-800 mb-2">备注</h2>
+            <textarea placeholder="输入其他需要说明的情况..." class="w-full p-3 border border-gray-200 rounded-lg text-sm h-24"></textarea>
+        </div>
+    </div>
+    
+    <!-- 底部操作按钮 -->
+    <div class="action-buttons">
+        <button class="action-button secondary-button" id="cancel-btn">
+            取消
+        </button>
+        <button class="action-button primary-button" id="save-btn">
+            保存
+        </button>
+    </div>
+    
+    <!-- 底部导航 -->
+    <div class="app-bottom-nav">
+        <a href="home.html" class="app-nav-item">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </a>
+        <a href="task_list.html" class="app-nav-item">
+            <i class="fas fa-list-alt"></i>
+            <span>任务</span>
+        </a>
+        <a href="#" class="app-nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>统计</span>
+        </a>
+        <a href="settings.html" class="app-nav-item">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </a>
+    </div>
+    
+    <script>
+        // 获取URL参数
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const pairs = queryString.split('&');
+            
+            for (const pair of pairs) {
+                const [key, value] = pair.split('=');
+                if (key && value) {
+                    params[key] = decodeURIComponent(value);
+                }
+            }
+            
+            return params;
+        }
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = getUrlParams();
+            const isEdit = params.id ? true : false; // 检查是否是编辑模式
+            
+            // 设置部件和损坏类型显示
+            if (params.part) {
+                document.getElementById('part-display').textContent = params.part;
+            }
+            
+            if (params.damage) {
+                document.getElementById('damage-display').textContent = params.damage;
+            }
+            
+            // 获取部件和损坏类型
+            const part = params.part || '';
+            const damage = params.damage || '';
+            
+            // 设置损坏位置选项
+            let positions = [];
+            if (params.positions) {
+                // 直接使用从URL获取的位置参数
+                positions = params.positions.split(',');
+            } else {
+                // 根据部件类型设置默认位置作为后备选项
+                if (part.includes('左门槽C-槽')) {
+                    positions = ['DB2N', 'DT2N'];
+                } else if (part.includes('右门槽C-槽')) {
+                    positions = ['DB3N', 'DT3N'];
+                } else if (part.includes('左门框')) {
+                    positions = ['DB2N', 'DT2N', 'DX2N'];
+                } else if (part.includes('右门框')) {
+                    positions = ['DB3N', 'DT3N', 'DX3N'];
+                } else if (part.includes('左门旁')) {
+                    positions = ['DB2N', 'DT2N', 'DX2N'];
+                } else if (part.includes('右门旁')) {
+                    positions = ['DB3N', 'DT3N', 'DX3N'];
+                } else if (part.includes('地板')) {
+                    positions = ['地板前', '地板中', '地板后'];
+                } else if (part.includes('侧板')) {
+                    positions = ['侧板前', '侧板中', '侧板后'];
+                } else if (part.includes('冰柜')) {
+                    positions = ['冰柜前', '冰柜中', '冰柜后'];
+                } else if (part.includes('开顶')) {
+                    positions = ['开顶前', '开顶中', '开顶后'];
+                }
+            }
+            
+            // 用于存储用户选择的位置
+            const selectedPositionsSet = new Set();
+            
+            // 如果是编辑模式，从本地存储加载现有数据
+            if (isEdit) {
+                // 从localStorage获取所有柜损记录
+                const damageRecords = JSON.parse(localStorage.getItem('damageRecords') || '[]');
+                
+                // 找到对应ID的记录
+                const record = damageRecords.find(r => r.id === params.id);
+                
+                if (record) {
+                    // 如果找到记录，填充页面元素
+                    
+                    // 填充已选位置
+                    if (record.positions && record.positions.length > 0) {
+                        record.positions.forEach(pos => selectedPositionsSet.add(pos));
+                    }
+                    
+                    // 设置数量、长度、宽度和备注
+                    if (record.quantity) {
+                        document.querySelector('input[placeholder="输入数量"]').value = record.quantity;
+                    }
+                    
+                    if (record.length) {
+                        document.querySelector('input[placeholder="输入长度"]').value = record.length;
+                    }
+                    
+                    if (record.width) {
+                        document.querySelector('input[placeholder="输入宽度"]').value = record.width;
+                    }
+                    
+                    if (record.remarks) {
+                        document.querySelector('textarea').value = record.remarks;
+                    }
+                    
+                    // 设置新旧口选择
+                    if (record.newOld) {
+                        const newOldValue = record.newOld === '新' ? 'new' : 'old';
+                        document.querySelector(`.new-old-option[data-value="${newOldValue}"]`).classList.add('bg-gray-200');
+                    }
+                }
+            }
+            
+            // 更新推荐位置选项
+                const positionsContainer = document.getElementById('damage-positions');
+                positionsContainer.innerHTML = '';
+                positions.forEach(position => {
+                    const positionBtn = document.createElement('div');
+                    positionBtn.className = 'px-2 py-1 rounded border border-gray-150 cursor-pointer position-option text-center hover:bg-gray-50';
+                    positionBtn.setAttribute('data-position', position);
+                    positionBtn.innerHTML = `<span class="text-sm text-gray-700">${position}</span>`;
+                    
+                    // 如果编辑模式下这个位置已经被选中，添加选中样式
+                    if (selectedPositionsSet.has(position)) {
+                        positionBtn.classList.add('bg-gray-200');
+                    }
+                    
+                    positionsContainer.appendChild(positionBtn);
+                });
+                
+            // 更新已选位置显示
+            function updateSelectedPositions() {
+                const selectedPositionsContainer = document.getElementById('selected-positions');
+                selectedPositionsContainer.innerHTML = '';
+                
+                if (selectedPositionsSet.size === 0) {
+                    selectedPositionsContainer.innerHTML = '<span class="text-xs text-gray-400">尚未选择位置</span>';
+                    return;
+                }
+                
+                selectedPositionsSet.forEach(position => {
+                    const positionTag = document.createElement('div');
+                    positionTag.className = 'px-2 py-1 bg-blue-50 rounded text-xs flex items-center';
+                    positionTag.innerHTML = `
+                        <span class="text-blue-700">${position}</span>
+                        <button class="ml-1 text-red-500 hover:text-red-700" data-remove="${position}">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    `;
+                    selectedPositionsContainer.appendChild(positionTag);
+                });
+                
+                // 添加删除位置的点击事件
+                document.querySelectorAll('[data-remove]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const positionToRemove = this.getAttribute('data-remove');
+                        selectedPositionsSet.delete(positionToRemove);
+                        updateSelectedPositions();
+                    });
+                });
+            }
+            
+            // 初始化显示
+            updateSelectedPositions();
+            
+            // 添加推荐位置选项的点击事件
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.position-option')) {
+                    const option = e.target.closest('.position-option');
+                    const position = option.getAttribute('data-position');
+                    
+                    // 选中状态切换
+                    option.classList.toggle('bg-gray-200');
+                    
+                    // 更新选中的位置集合
+                    if (option.classList.contains('bg-gray-200')) {
+                        selectedPositionsSet.add(position);
+                    } else {
+                        selectedPositionsSet.delete(position);
+                    }
+                    
+                    // 更新显示
+                    updateSelectedPositions();
+                }
+            });
+            
+            // 添加自定义位置的点击事件
+            document.getElementById('add-position-btn').addEventListener('click', function() {
+                const customPositionInput = document.getElementById('custom-position');
+                const customPosition = customPositionInput.value.trim();
+                
+                if (customPosition) {
+                    selectedPositionsSet.add(customPosition);
+                    updateSelectedPositions();
+                    customPositionInput.value = '';
+                }
+            });
+            
+            // 回车添加自定义位置
+            document.getElementById('custom-position').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const customPosition = this.value.trim();
+                    
+                    if (customPosition) {
+                        selectedPositionsSet.add(customPosition);
+                        updateSelectedPositions();
+                        this.value = '';
+                    }
+                    
+                    e.preventDefault();
+                }
+            });
+            
+            // 设置维修方式选项
+                let repairMethods = [];
+            if (params.repairMethods) {
+                repairMethods = params.repairMethods.split(',');
+            } else {
+                // 根据部件类型设置默认维修方式
+                if (part.includes('门槽C-槽') || part.includes('门框')) {
+                    repairMethods = ['打正', '加角', '割换', '打正补焊', '补焊'];
+                } else if (part.includes('门旁')) {
+                    repairMethods = ['打正', '加角', '补片', '打正补焊', '补新'];
+                } else if (part.includes('地板')) {
+                    repairMethods = ['补片', '更换', '清洗', '除味'];
+                } else if (part.includes('侧板')) {
+                    repairMethods = ['打正', '补片', '更换', '清洗'];
+                } else if (part.includes('冰柜')) {
+                    repairMethods = ['更换', '修复', '紧固'];
+                } else if (part.includes('开顶')) {
+                    repairMethods = ['更换', '修复', '紧固'];
+                }
+            }
+            
+            // 更新维修方式选项
+                const methodsContainer = document.getElementById('repair-methods');
+                methodsContainer.innerHTML = '';
+                repairMethods.forEach(method => {
+                    const methodBtn = document.createElement('div');
+                    methodBtn.className = 'px-2 py-1 rounded border border-gray-200 cursor-pointer repair-method-option text-center hover:bg-gray-50';
+                    methodBtn.setAttribute('data-method', method);
+                    methodBtn.innerHTML = `<span class="text-sm text-gray-700">${method}</span>`;
+                    
+                    // 如果是编辑模式且这个维修方法已被选中
+                    if (isEdit) {
+                        const damageRecords = JSON.parse(localStorage.getItem('damageRecords') || '[]');
+                        const record = damageRecords.find(r => r.id === params.id);
+                        
+                        if (record && record.repairMethods && record.repairMethods.includes(method)) {
+                            methodBtn.classList.add('bg-blue-100', 'border-blue-300');
+                        }
+                    }
+                    
+                    methodsContainer.appendChild(methodBtn);
+                });
+                
+                // 添加维修方式选项的点击事件
+                document.addEventListener('click', function(e) {
+                    if (e.target.closest('.repair-method-option')) {
+                        const option = e.target.closest('.repair-method-option');
+                        option.classList.toggle('bg-blue-100');
+                        option.classList.toggle('border-blue-300');
+                    }
+                });
+            
+            // 新旧口选择逻辑
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.new-old-option')) {
+                    const option = e.target.closest('.new-old-option');
+                    document.querySelectorAll('.new-old-option').forEach(opt => {
+                        opt.classList.remove('bg-gray-200');
+                    });
+                    option.classList.add('bg-gray-200');
+                }
+            });
+            
+            // 设置返回按钮事件
+            document.getElementById('back-button').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 检查是否有来源页面的返回URL参数
+                const returnUrl = params.returnUrl || null;
+                
+                if (returnUrl) {
+                    // 如果有指定的返回URL，则使用该URL
+                    window.location.href = decodeURIComponent(returnUrl);
+                } else {
+                    // 否则，检查来源页面参数
+                    const source = params.source || 'entry'; // 默认为进场检验
+                    
+                    // 检查referrer以确定返回到哪个页面
+                    // 如果是从特定的损坏类型页面跳转来的，直接返回上一页
+                    const referrer = document.referrer;
+                    // 检查是否来自具体的损坏类型页面
+                    if (referrer && (
+                        referrer.includes('freezer_damage.html') || 
+                        referrer.includes('floor_damage.html') || 
+                        referrer.includes('door_panel_damage.html') || 
+                        referrer.includes('open_top_damage.html') ||
+                        referrer.includes('side_panel_damage.html') ||
+                        referrer.includes('label_damage.html') ||
+                        referrer.includes('corner_damage.html') ||
+                        referrer.includes('door_parts_damage.html') ||
+                        referrer.includes('bottom_damage.html') ||
+                        referrer.includes('top_damage.html')
+                    )) {
+                        // 如果是从损坏类型页面跳转来的，则使用浏览器历史返回功能
+                        window.history.back();
+                    } else {
+                        // 如果是从主页面跳转的，返回到对应的检验页面
+                        window.location.href = source === 'field' ? 'field_inspection.html' : 'entry_inspection.html';
+                    }
+                }
+            });
+            
+            // 保存按钮点击事件
+            document.getElementById('save-btn').addEventListener('click', function() {
+                // 获取所有选中的位置
+                const selectedPositions = Array.from(selectedPositionsSet);
+                
+                // 获取选中的维修方式
+                const selectedMethods = document.querySelectorAll('.repair-method-option.bg-blue-100');
+                const repairMethods = Array.from(selectedMethods).map(method => method.getAttribute('data-method') || method.textContent.trim());
+                
+                // 获取选中的新旧口
+                const selectedNewOld = document.querySelector('.new-old-option.bg-gray-200');
+                const newOld = selectedNewOld ? selectedNewOld.getAttribute('data-value') : '';
+                
+                // 获取数量、长度、宽度
+                const quantity = document.querySelector('input[placeholder="输入数量"]').value || '1';
+                const length = document.querySelector('input[placeholder="输入长度"]').value || '';
+                const width = document.querySelector('input[placeholder="输入宽度"]').value || '';
+                
+                // 获取备注
+                const remarks = document.querySelector('textarea').value || '';
+                
+                // 创建损坏数据对象
+                const damageData = {
+                    id: params.id || Date.now().toString(), // 使用URL中的ID或生成新ID
+                    part: params.part || '',
+                    damage: params.damage || '',
+                    positions: selectedPositions,
+                    repairMethods: repairMethods,
+                    newOld: newOld === 'new' ? '新' : '旧',
+                    quantity: quantity,
+                    length: length,
+                    width: width,
+                    remarks: remarks,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // 检查来源页面参数
+                const source = params.source || 'entry'; // 默认为进场检验
+                
+                // 根据来源页面决定保存到哪个存储空间
+                let storageKey = 'damageRecords'; // 默认是进场检验的存储键
+                if (source === 'field') {
+                    storageKey = 'fieldDamageRecords'; // 现场检验的存储键
+                }
+                
+                console.log('保存到存储空间:', storageKey);
+                
+                // 获取现有的损坏记录
+                let damageRecords = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                
+                // 检查是否是编辑已有记录
+                if (params.id) {
+                    // 查找并更新现有记录
+                    const index = damageRecords.findIndex(item => item.id === params.id);
+                    if (index !== -1) {
+                        damageRecords[index] = damageData;
+                    } else {
+                        // 如果没找到，添加为新记录
+                        damageRecords.push(damageData);
+                    }
+                } else {
+                    // 添加新记录
+                    damageRecords.push(damageData);
+                }
+                
+                // 保存到localStorage
+                localStorage.setItem(storageKey, JSON.stringify(damageRecords));
+                
+                // 显示提示信息
+                showToast('柜损记录已保存');
+                
+                // 返回上一页
+                setTimeout(function() {
+                    window.location.href = source === 'field' ? 'field_inspection.html' : 'entry_inspection.html';
+                }, 500);
+            });
+            
+            // 取消按钮点击事件 - 行为应与返回按钮一致
+            document.getElementById('cancel-btn').addEventListener('click', function() {
+                // 检查是否有来源页面的返回URL参数
+                const returnUrl = params.returnUrl || null;
+                
+                if (returnUrl) {
+                    // 如果有指定的返回URL，则使用该URL
+                    window.location.href = decodeURIComponent(returnUrl);
+                } else {
+                    // 检查referrer以确定返回到哪个页面
+                    const referrer = document.referrer;
+                    // 检查是否来自具体的损坏类型页面
+                    if (referrer && (
+                        referrer.includes('freezer_damage.html') || 
+                        referrer.includes('floor_damage.html') || 
+                        referrer.includes('door_panel_damage.html') || 
+                        referrer.includes('open_top_damage.html') ||
+                        referrer.includes('side_panel_damage.html') ||
+                        referrer.includes('label_damage.html') ||
+                        referrer.includes('corner_damage.html') ||
+                        referrer.includes('door_parts_damage.html') ||
+                        referrer.includes('bottom_damage.html') ||
+                        referrer.includes('top_damage.html')
+                    )) {
+                        // 如果是从损坏类型页面跳转来的，则使用浏览器历史返回功能
+                        window.history.back();
+                    } else {
+                        // 否则，检查来源页面参数
+                        const source = params.source || 'entry'; // 默认为进场检验
+                        // 如果是从主页面跳转的，返回到对应的检验页面
+                        window.location.href = source === 'field' ? 'field_inspection.html' : 'entry_inspection.html';
+                    }
+                }
+            });
+            
+            // 显示Toast消息
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm z-50';
+                toast.textContent = message;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('opacity-0');
+                    toast.style.transition = 'opacity 0.5s';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 500);
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html> 

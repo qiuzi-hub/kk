@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>堆场验箱系统 - 原型预览</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        .prototype-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 20px;
+        }
+        
+        .prototype-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .prototype-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prototype-header {
+            padding: 12px 15px;
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .prototype-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .prototype-iframe {
+            width: 100%;
+            height: 650px;
+            border: none;
+        }
+        
+        .zoom-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .zoom-btn {
+            background-color: #e5e7eb;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #4b5563;
+            transition: background-color 0.2s;
+        }
+        
+        .zoom-btn:hover {
+            background-color: #d1d5db;
+        }
+        
+        .fullscreen-btn {
+            background-color: #e5e7eb;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #4b5563;
+            transition: background-color 0.2s;
+            margin-left: 8px;
+        }
+        
+        .fullscreen-btn:hover {
+            background-color: #d1d5db;
+        }
+        
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .fullscreen-content {
+            width: 430px;
+            height: 90vh;
+            background-color: white;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .close-fullscreen {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .fullscreen-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="prototype-container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">堆场验箱系统原型预览</h1>
+        <p class="text-gray-600 mb-8 text-center">所有界面集合展示，点击各界面右上角按钮可放大查看</p>
+        
+        <div class="prototype-grid">
+            <!-- 任务列表 -->
+            <div class="prototype-item" id="task-list">
+                <div class="prototype-header">
+                    <div class="prototype-title">任务列表</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="task-list-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="task-list-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="task-list-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="task-list-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="task_list.html" class="prototype-iframe" id="task-list-iframe"></iframe>
+            </div>
+            
+            <!-- 箱属选择 -->
+            <div class="prototype-item" id="container-owner">
+                <div class="prototype-header">
+                    <div class="prototype-title">选择箱属</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="container-owner-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="container-owner-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="container-owner-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="container-owner-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="container_owner_select.html" class="prototype-iframe" id="container-owner-iframe"></iframe>
+            </div>
+            
+            <!-- 损坏详情 -->
+            <div class="prototype-item" id="damage-detail">
+                <div class="prototype-header">
+                    <div class="prototype-title">损坏详情</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="damage-detail-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="damage-detail-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="damage-detail-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="damage-detail-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="damage_detail.html" class="prototype-iframe" id="damage-detail-iframe"></iframe>
+            </div>
+            
+            <!-- 审批管理 -->
+            <div class="prototype-item" id="approval-management">
+                <div class="prototype-header">
+                    <div class="prototype-title">柜损维修申请</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="approval-management-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="approval-management-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="approval-management-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="approval-management-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="approval_management.html" class="prototype-iframe" id="approval-management-iframe"></iframe>
+            </div>
+            
+            <!-- 地板损坏类型 -->
+            <div class="prototype-item" id="floor-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">地板损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="floor-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="floor-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="floor-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="floor-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="floor_damage.html" class="prototype-iframe" id="floor-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 冻柜损坏类型 -->
+            <div class="prototype-item" id="freezer-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">冻柜损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="freezer-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="freezer-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="freezer-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="freezer-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="freezer_damage.html" class="prototype-iframe" id="freezer-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 角件损坏类型 -->
+            <div class="prototype-item" id="corner-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">角件损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="corner-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="corner-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="corner-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="corner-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="corner_damage.html" class="prototype-iframe" id="corner-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 标签损坏类型 -->
+            <div class="prototype-item" id="label-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">标签损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="label-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="label-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="label-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="label-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="label_damage.html" class="prototype-iframe" id="label-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 开顶箱损坏类型 -->
+            <div class="prototype-item" id="open-top-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">开顶箱损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="open-top-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="open-top-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="open-top-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="open-top-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="open_top_damage.html" class="prototype-iframe" id="open-top-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 门部件损坏类型 -->
+            <div class="prototype-item" id="door-parts-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">门部件损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="door-parts-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="door-parts-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="door-parts-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="door-parts-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="door_parts_damage.html" class="prototype-iframe" id="door-parts-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 门板损坏类型 -->
+            <div class="prototype-item" id="door-panel-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">门板损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="door-panel-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="door-panel-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="door-panel-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="door-panel-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="door_panel_damage.html" class="prototype-iframe" id="door-panel-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 侧板损坏类型 -->
+            <div class="prototype-item" id="side-panel-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">侧板损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="side-panel-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="side-panel-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="side-panel-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="side-panel-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="side_panel_damage.html" class="prototype-iframe" id="side-panel-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 顶部损坏类型 -->
+            <div class="prototype-item" id="top-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">顶部损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="top-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="top-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="top-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="top-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="top_damage.html" class="prototype-iframe" id="top-damage-iframe"></iframe>
+            </div>
+            
+            <!-- 底部损坏类型 -->
+            <div class="prototype-item" id="bottom-damage">
+                <div class="prototype-header">
+                    <div class="prototype-title">底部损坏类型</div>
+                    <div class="flex items-center">
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-in" data-target="bottom-damage-iframe"><i class="fas fa-plus"></i></button>
+                            <button class="zoom-btn zoom-out" data-target="bottom-damage-iframe"><i class="fas fa-minus"></i></button>
+                            <button class="zoom-btn zoom-reset" data-target="bottom-damage-iframe"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <button class="fullscreen-btn" data-target="bottom-damage-iframe"><i class="fas fa-expand"></i></button>
+                    </div>
+                </div>
+                <iframe src="bottom_damage.html" class="prototype-iframe" id="bottom-damage-iframe"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全屏模态框 -->
+    <div class="fullscreen-modal" id="fullscreen-modal">
+        <div class="close-fullscreen" id="close-fullscreen"><i class="fas fa-times"></i></div>
+        <div class="fullscreen-content">
+            <iframe id="fullscreen-iframe" class="fullscreen-iframe"></iframe>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 缩放控制
+            const zoomLevels = {
+                'task-list-iframe': 1,
+                'container-owner-iframe': 1,
+                'damage-detail-iframe': 1,
+                'approval-management-iframe': 1,
+                'floor-damage-iframe': 1,
+                'freezer-damage-iframe': 1,
+                'corner-damage-iframe': 1,
+                'label-damage-iframe': 1,
+                'open-top-damage-iframe': 1,
+                'door-parts-damage-iframe': 1,
+                'door-panel-damage-iframe': 1,
+                'side-panel-damage-iframe': 1,
+                'top-damage-iframe': 1,
+                'bottom-damage-iframe': 1
+            };
+            
+            // 缩放增加
+            document.querySelectorAll('.zoom-in').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    zoomLevels[targetId] = Math.min(zoomLevels[targetId] + 0.1, 1.5);
+                    applyZoom(targetId);
+                });
+            });
+            
+            // 缩放减少
+            document.querySelectorAll('.zoom-out').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    zoomLevels[targetId] = Math.max(zoomLevels[targetId] - 0.1, 0.5);
+                    applyZoom(targetId);
+                });
+            });
+            
+            // 缩放重置
+            document.querySelectorAll('.zoom-reset').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    zoomLevels[targetId] = 1;
+                    applyZoom(targetId);
+                });
+            });
+            
+            // 应用缩放
+            function applyZoom(iframeId) {
+                const iframe = document.getElementById(iframeId);
+                const zoomLevel = zoomLevels[iframeId];
+                
+                iframe.contentDocument.body.style.transform = `scale(${zoomLevel})`;
+                iframe.contentDocument.body.style.transformOrigin = 'top center';
+            }
+            
+            // 全屏按钮
+            const fullscreenModal = document.getElementById('fullscreen-modal');
+            const fullscreenIframe = document.getElementById('fullscreen-iframe');
+            
+            document.querySelectorAll('.fullscreen-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const sourceSrc = document.getElementById(targetId).src;
+                    
+                    fullscreenIframe.src = sourceSrc;
+                    fullscreenModal.style.display = 'flex';
+                });
+            });
+            
+            // 关闭全屏
+            document.getElementById('close-fullscreen').addEventListener('click', function() {
+                fullscreenModal.style.display = 'none';
+                fullscreenIframe.src = '';
+            });
+            
+            // 等待iframe加载后应用样式
+            document.querySelectorAll('.prototype-iframe').forEach(iframe => {
+                iframe.addEventListener('load', function() {
+                    try {
+                        // 确保iframe内容可以被访问
+                        if (this.contentDocument) {
+                            // 为每个iframe的body添加固定宽度样式
+                            this.contentDocument.body.style.width = '430px';
+                            this.contentDocument.body.style.margin = '0 auto';
+                        }
+                    } catch (e) {
+                        console.log('无法访问iframe内容:', e);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
